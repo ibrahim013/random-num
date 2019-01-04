@@ -1,25 +1,22 @@
 {
   "name": "random-num",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-scripts": "2.1.2"
-  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ibrahim013/random-num.git",
+  "author": "Ibrahim-Abdulazeez <ibrahim.abdulazeez@andela.com>",
+  "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "server": "nodemon server.js ",
+    "test": "mocha"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "coveralls": "^3.0.2",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
 }
