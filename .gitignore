@@ -3,3 +3,7 @@ node_modules
 yarn-error.log
 yarn.lock
 config
+.nyc_output
+coverage
+coverage.lcov
+.coveralls.yml
