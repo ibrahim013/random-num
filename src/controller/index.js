@@ -25,19 +25,14 @@ export default class RandomNumberGen {
    * @return {string} uniqueId
    */
   static generateToken(req, res) {
-    if (req.query.admin === ''
-      || req.query.admin === undefined
-      || req.query.admin === null
-      || req.query.admin !== 'admin') {
+    if (!(req.query.admin) || req.query.admin !== 'admin') {
       return res.status(401).json({
         success: false,
         error: 'Unauthorized user contact system administrator',
       });
     }
     try {
-      const token = RandomNumberGen.token({
-        name: 'ibrahim',
-      });
+      const token = RandomNumberGen.token({ name: 'ibrahim' });
       return res.status(200).json({ success: true, token });
     } catch (err) { return res.status(500).json({ msg: err.message, success: false }); }
   }
@@ -48,12 +43,14 @@ export default class RandomNumberGen {
    * @returns {object} object
    */
   static generateNumber(req, res) {
-    const value = req.body.numGen;
-    if (!value || typeof value !== 'number' || value <= 0) {
-      return 'Only numbers are allowed here';
+    const rawwValue = req.body.numGen;
+    const value = Number(rawwValue);
+
+    if (!value || value <= 0) {
+      return res.status(400).json({ msg: 'Only numbers are allowed here', success: false });
     }
     if (value > 2000) {
-      return 'you can not generate more than 2000 numbers at a go';
+      return res.status(400).json({ msg: 'you can not generate more than 2000 numbers at a go', success: false });
     }
     const dataHold = [];
     for (let i = 0; i < value; i++) {
@@ -74,7 +71,7 @@ export default class RandomNumberGen {
             res.status(500).json({ msg: 'something went wrong' });
           }
         });
-      return res.status(200).json({ dataHold });
+      return res.status(201).json({ dataHold });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

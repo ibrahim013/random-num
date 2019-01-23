@@ -15,3 +15,5 @@ app.use('/api/v1', route);
 app.get('/', (req, res) => res.status(200).json({ msg: 'this is a number generator API' }));
 
 app.listen(port, () => console.log(`server is up and runing on ${port}`));
+
+export default app;
