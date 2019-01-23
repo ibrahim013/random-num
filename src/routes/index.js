@@ -1,11 +1,13 @@
 import express from 'express';
 
 import RandomNumberGen from '../controller/index';
+import verifyToken from '../middlewares/verifyToken';
 
 const router = express.Router();
-const { generateNumber, getAllNumber } = RandomNumberGen;
+const { generateToken, generateNumber, getAllNumber } = RandomNumberGen;
 
-router.post('/generate', generateNumber);
-router.get('/generate', getAllNumber);
+router.get('/token', generateToken);
+router.post('/generate', verifyToken, generateNumber);
+router.get('/numbers', verifyToken, getAllNumber);
 
 export default router;

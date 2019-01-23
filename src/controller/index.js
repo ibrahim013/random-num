@@ -1,19 +1,61 @@
 import fs from 'fs';
-import path from 'path'
-/**
- * @description this method generate random number
- */
+import path from 'path';
+import jwt from 'jsonwebtoken';
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 export default class RandomNumberGen {
   /**
-   * @param {*} req
-   * @param {*} res
+   * @description Method generates token
+   * @param {Object} user request object
+   * @return {string} token
+   */
+  static token(user) {
+    return jwt.sign({ token: { user } },
+      process.env.SECRET_TOKEN,
+      { expiresIn: '24h' });
+  }
+
+  /**
+   * @description generates token
+   * @param {object}req
+   * @param {object}res
+   * @return {string} uniqueId
+   */
+  static generateToken(req, res) {
+    if (req.query.admin === ''
+      || req.query.admin === undefined
+      || req.query.admin === null
+      || req.query.admin !== 'admin') {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized user contact system administrator',
+      });
+    }
+    try {
+      const token = RandomNumberGen.token({
+        name: 'ibrahim',
+      });
+      return res.status(200).json({ success: true, token });
+    } catch (err) { return res.status(500).json({ msg: err.message, success: false }); }
+  }
+
+  /**
+   * @param {object} req
+   * @param {object} res
    * @returns {object} object
    */
   static generateNumber(req, res) {
-    const userId = req.body.id;
     const value = req.body.numGen;
+    if (!value || typeof value !== 'number' || value <= 0) {
+      return 'Only numbers are allowed here';
+    }
+    if (value > 2000) {
+      return 'you can not generate more than 2000 numbers at a go';
+    }
     const dataHold = [];
-    if (userId !== '24025' || undefined || null) return res.status(401).json({ status: 'fail', msg: 'you are not authorized to perform this task' });
     for (let i = 0; i < value; i++) {
       const firstRandomNum = Math.random().toString().slice(2, 7);
       const secondRandomNum = Date.now().toString().slice(9, 13);
@@ -25,19 +67,23 @@ export default class RandomNumberGen {
       };
       dataHold.push(data);
     }
-    fs.writeFileSync(path.join(__dirname, '../database/dataStore.json'),
-      JSON.stringify(dataHold), (err) => {
-        if (err) {
-          return res.status(500).json({ msg: 'something went wrong' });
-        }
-      });
-    return res.status(200).json({ dataHold });
+    try {
+      fs.writeFileSync(path.join(__dirname, '../database/dataStore.json'),
+        JSON.stringify(dataHold), (err) => {
+          if (err) {
+            res.status(500).json({ msg: 'something went wrong' });
+          }
+        });
+      return res.status(200).json({ dataHold });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
   }
 
   /**
    * @description get all generated number
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {object} object
    */
   static getAllNumber(req, res) {

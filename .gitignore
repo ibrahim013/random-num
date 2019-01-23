@@ -7,3 +7,4 @@ config
 coverage
 coverage.lcov
 .coveralls.yml
+.env
