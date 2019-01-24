@@ -22,7 +22,7 @@ export default class RandomNumberGen {
    * @description generates token
    * @param {object}req
    * @param {object}res
-   * @return {string} uniqueId
+   * @return {string} token
    */
   static generateToken(req, res) {
     if (!(req.query.admin) || req.query.admin !== 'admin') {
@@ -31,10 +31,8 @@ export default class RandomNumberGen {
         error: 'Unauthorized user contact system administrator',
       });
     }
-    try {
-      const token = RandomNumberGen.token({ name: 'ibrahim' });
-      return res.status(200).json({ success: true, token });
-    } catch (err) { return res.status(500).json({ msg: err.message, success: false }); }
+    const token = RandomNumberGen.token({ name: 'ibrahim' });
+    return res.status(200).json({ success: true, token });
   }
 
   /**
