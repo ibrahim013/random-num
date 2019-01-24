@@ -6,7 +6,7 @@
   "author": "Ibrahim-Abdulazeez <ibrahim.abdulazeez@andela.com>",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon",
+    "start": "nodemon",
     "cover": "cat ./coverage/lcov.info",
     "test": "NODE_ENV=test nyc --reporter=text --reporter=html --reporter=lcov mocha src/test --timeout 40000 --exit --compilers js:babel-register && yarn coverage-report",
     "coverage-report": "nyc report --reporter=text-lcov | coveralls"
