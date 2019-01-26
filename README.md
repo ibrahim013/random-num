@@ -64,7 +64,7 @@ The server directory houses the implementation using
 * Go to http://localhost:8000/
 
 Test
-This app uses Mocha, Chai-Http for test
+This app uses Mocha, supertest for test
 Run `yarn i mocha -g` to install Mocha globally and `yarn i nyc -g` to install nyc globally before running yarn test to run tests
 git clone https://github.com/ibrahim013/random-num.git
 
